@@ -1,6 +1,7 @@
 # Hubot Deploy
 Giving Hubot the ability to deploy your repos on the fly!
 
+[![Dependency Status](https://david-dm.org/boxxenapp/hubot-deploy.svg)](https://david-dm.org/boxxenapp/hubot-deploy)
 
 #### Commands
 

@@ -15,6 +15,8 @@
 #   Ollie Jennings <ollie@olliejennings.co.uk>
 
 
+deploy = require "./deploy/index"
+
 
 
 ##############################
@@ -27,6 +29,13 @@ ensureConfig = (out) ->
   return false unless (process.env.HUBOT_HEROKU_KEY and process.env.HUBOT_GITHUB_ORG)
   true
 
+parse = (msg, repo, paas) ->
+  repo = repo.split '/'
+  deploy[paas] msg, repo[0], repo[1], repo[2] if repo.length == 3
+  deploy[paas] msg, process.env.HUBOT_GITHUB_ORG, repo[0], repo[1] if repo.length < 3 and process.env.HUBOT_GITHUB_ORG
+  msg.reply "You must specify a valid organization or user" if !process.env.HUBOT_GITHUB_ORG
+  msg.reply "The repo: `#{repo.join '/'}` is invalid, the format is: `organization/repo-name/repo-branch`" if repo.length > 3
+
 
 
 module.exports = (robot) ->
@@ -36,3 +45,6 @@ module.exports = (robot) ->
   robot.respond /where can l deploy[?]?/i, (msg) ->
     msg.reply "\nYou can deploy to:\n - `Heroku`"
 
+  robot.respond /deploy (\w.+) to (heroku)/i, (msg) ->
+    console.log deploy
+    parse msg, msg.match[1], msg.match[2]
