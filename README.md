@@ -1,4 +1,13 @@
 # Hubot Deploy
+
+```
+DO NOT INSTALL
+
+This repo is not published to NPM yet, and l have just started working on it.
+Expect this to be published to NPM by the end of the weekend (hopefull)
+```
+
+
 Giving Hubot the ability to deploy your repos on the fly to PaaS providers!
 
 [![Dependency Status](https://david-dm.org/boxxenapp/hubot-deploy.svg)](https://david-dm.org/boxxenapp/hubot-deploy)
@@ -7,9 +16,11 @@ Giving Hubot the ability to deploy your repos on the fly to PaaS providers!
 
 Below are the commands that l want hubot to be able to do:
 
-* `hubot deploy <repo name> to heroku`
-* `hubot deploy <repo name>:<repo branch> to heroku`
-* `hubot deploy <repo name> to digital ocean`
+* `hubot deploy <repo-name to heroku`
+* `hubot deploy <repo-name>/<repo-branch> to heroku`
+* `hubot deploy <org-name>/<repo-name>/<repo-branch> to heroku`
+* `hubot deploy <user-name>/<repo-name>/<repo-branch> to heroku`
+* `hubot deploy <repo-name> to digital ocean` - coming soon!
 
 
 #### PaaS Providers
