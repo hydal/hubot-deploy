@@ -1,5 +1,5 @@
 # Hubot Deploy
-Giving Hubot the ability to deploy your repos on the fly!
+Giving Hubot the ability to deploy your repos on the fly to PaaS providers!
 
 [![Dependency Status](https://david-dm.org/boxxenapp/hubot-deploy.svg)](https://david-dm.org/boxxenapp/hubot-deploy)
 
