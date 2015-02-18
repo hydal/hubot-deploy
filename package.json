@@ -20,7 +20,8 @@
     "url": "https://github.com/boxxenapp/hubot-deploy/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.9"
+    "coffee-script": "~1.9",
+    "github": "^0.2.3"
   },
   "devDependencies": {
     "mocha": "*",
