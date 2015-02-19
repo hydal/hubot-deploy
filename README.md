@@ -7,6 +7,8 @@ This repo is not published to NPM yet, and l have just started working on it.
 Expect this to be published to NPM by the end of the weekend (hopefull)
 ```
 
+`SLACK ONLY`
+
 
 Giving Hubot the ability to deploy your repos on the fly to PaaS providers!
 

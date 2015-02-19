@@ -43,11 +43,9 @@ parse = (msg, repo, paas) ->
   else if repo.length > 3
     msg.reply "The repo: `#{repo.join '/'}` is invalid, the format is: `organization/repo-name/repo-branch`"
   else if repo.length == 3
-    if repoExists msg, repo[0], repo[1], repo[2], paas
-      deploy[paas] msg, repo[0], repo[1], repo[2]
+    repoExists msg, repo[0], repo[1], repo[2], paas
   else if repo.length < 3
-    if repoExists msg, process.env.HUBOT_GITHUB_ORG, repo[0], repo[1], paas
-      deploy[paas] msg, process.env.HUBOT_GITHUB_ORG, repo[0], repo[1]
+    repoExists msg, process.env.HUBOT_GITHUB_ORG, repo[0], repo[1], paas
 
 
 
@@ -55,10 +53,9 @@ repoExists = (msg, organization, repository, repoBranch="master", paas) ->
   github.repos.getBranch user: organization, repo: repository, branch: repoBranch, (err, res) ->
     if err
       msg.reply "The repository: `#{organization + '/' + repository}` or branch: `#{repoBranch}` does not exist"
-      return false
     else
       msg.send "Started deployment of repo: `#{organization + '/' + repository}`, branch: `#{repoBranch}` to: `#{paas}`"
-      return true
+      deploy[paas] msg, organization, repository, repoBranch, github
 
 
 
