@@ -17,6 +17,7 @@
 
 
 deploy = require "./deploy/index"
+yaml = require 'js-yaml'
 
 GitHubAPI = require "github"
 github = new GitHubAPI version: "3.0.0", debug: true, headers: Accept: "application/vnd.github.moondragon+json"
@@ -35,27 +36,35 @@ ensureConfig = (out) ->
   true
 
 
-parse = (msg, repo, paas) ->
-  repo = repo.split '/'
-  console.log paas
-  if !process.env.HUBOT_GITHUB_ORG and repo.length < 3
-    msg.reply "You must specify a valid organization or user"
-  else if repo.length > 3
-    msg.reply "The repo: `#{repo.join '/'}` is invalid, the format is: `organization/repo-name/repo-branch`"
-  else if repo.length == 3
-    repoExists msg, repo[0], repo[1], repo[2], paas
-  else if repo.length < 3
-    repoExists msg, process.env.HUBOT_GITHUB_ORG, repo[0], repo[1], paas
+extractValues = (msg, cb) ->
+  repo = msg.match[1].split '/'
+  return msg.reply "An organization is required." if !process.env.HUBOT_GITHUB_ORG and repo.length < 3
+  return msg.reply "Msg format must be of `org/repo/branch`" if repo.length > 3
+  return cb org: repo[0], repo: repo[1], branch: (repo[2] or "master"), service: msg.match[2] if repo.length is 3
+  return cb org: process.env.HUBOT_GITHUB_ORG, repo: repo[0], branch: (repo[1] or "master"), service: msg.match[2] if repo.length < 3
+
+
+validateRepo = (msg, options, cb) ->
+  github.repos.getBranch user: options.org, repo: options.repo, branch: options.branch, (err, res) ->
+    return msg.reply "Error: the repo: #{options.org}/#{options.repo}/#{options.branch} was not found."  if err
+    cb()
 
 
 
-repoExists = (msg, organization, repository, repoBranch="master", paas) ->
-  github.repos.getBranch user: organization, repo: repository, branch: repoBranch, (err, res) ->
-    if err
-      msg.reply "The repository: `#{organization + '/' + repository}` or branch: `#{repoBranch}` does not exist"
-    else
-      msg.send "Started deployment of repo: `#{organization + '/' + repository}`, branch: `#{repoBranch}` to: `#{paas}`"
-      deploy[paas] msg, organization, repository, repoBranch, github
+
+
+getConfig = (msg, options, cb) ->
+  github.repos.getContent user: options.org, repo: options.repo, path: "blah.coffee", ref: options.branch, (err, res) ->
+    return cb(null) if err
+    console.log(err, res)
+    # yaml.safeLoad(
+    console.log new Buffer(res.content, 'base64').toString() unless err
+    return cb({})
+    # deployment:
+      # heroku:
+        # appname: foo-bar-123
+        # variables
+          # var-name: var-iable
 
 
 
@@ -65,7 +74,15 @@ module.exports = (robot) ->
   github.authenticate type: "oauth", token: process.env.HUBOT_GITHUB_KEY
 
   robot.respond /where can l deploy[?]?/i, (msg) ->
-    msg.reply "\nYou can deploy to:\n - `Heroku`"
+    msg.reply "\nYou can deploy to:\n\t- `Heroku`"
 
   robot.respond /deploy (\w.+) to (heroku)/i, (msg) ->
-    parse msg, msg.match[1], msg.match[2]
+    extractValues msg, (options) ->
+      msg.send "Checking if the repo: `#{options.org}/#{options.repo}/#{options.branch}` exists"
+      validateRepo msg, options, () ->
+        console.log('it exists')
+        getConfig msg, options, (config) ->
+          console.log('got here')
+          console.log config
+          deploy[options.service](msg, options, config, github)
+          # todo slack attachments do, robot.emit 'slack.attachment'

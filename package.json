@@ -22,7 +22,9 @@
   "dependencies": {
     "coffee-script": "~1.9",
     "github": "^0.2.3",
-    "heroku-client": "^1.9.1"
+    "heroku-client": "^1.9.1",
+    "js-yaml": "^3.2.7",
+    "lodash": "^3.3.1"
   },
   "devDependencies": {
     "mocha": "*",
