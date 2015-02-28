@@ -20,36 +20,23 @@ module.exports = (msg, options, config={ appname: "#{[options.repo, options.bran
 checkApps = (msg, config) ->
   heroku.apps().list (err, res) ->
     app = _.find(res, { name: config.appname })
-    msg.send "You already have an app called this name, deploying code to this app" if app
-    return createBuild msg, config if app
+    msg.send "You already have an app called: #{config.appname}, deploying code to this app" if app
+    return createBuild msg, config, new Date() if app
     createApp msg, config
-
-
 
 
 
 createApp = (msg, config) ->
   msg.send "Creating the heroku app: #{config.appname}"
+  heroku.apps().create name: config.appname, (err, app) ->
+    return msg.reply "Couldn't create the app: #{config.appname}, this name could be taken" if err
+    msg.send "The app: #{config.appname} was successfully created!"
+    createBuild msg, config, app.released_at
 
 
-# createApp = (msg, appName, tarball) ->
 
-#     appName = appName.substring(0, 30)
-
-#     # create app
-#     msg.send "Creating the heroku app called: `#{appName}`"
-#     heroku.apps().create name: appName, (err, apps) ->
-#       console.log err, apps
-#       if err
-#         if err.body.message == "Name is already taken"
-#           msg.reply "The heroku app: `#{appName}` already exists, therefore creating a new build, this will fail if you don't own this app"
-#           createBuild msg, appName, tarball, Date.now()
-#         else
-#           msg.reply "There was an error trying to create the heroku app: `#{appName}`"
-#       else
-#         msg.send "Creating a new build for the new heroku app: `#{apps.name}`"
-#         createBuild msg, apps.name, tarball, apps.released_at
-
-
-    # Create build
-    # POST /apps/{app id or name}/builds -> source_blob_url, source_blob_version
+createBuild = (msg, config, version) ->
+    heroku.apps(config.appname).builds().create source_blob: url: config.tarball, version: version, (err, build) ->
+      console.log err, build
+      return msg.reply "The build failed" if err
+      msg.send "The app #{config.url} was successfully deployed to heroku"
