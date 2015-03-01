@@ -27,7 +27,6 @@ checkApps = (msg, config) ->
 
 
 createApp = (msg, config) ->
-  msg.send "Creating the heroku app: #{config.appname}"
   heroku.apps().create name: config.appname, (err, app) ->
     return msg.reply "Couldn't create the app: #{config.appname}, this name could be taken" if err
     msg.send "The app: #{config.appname} was successfully created!"
