@@ -54,17 +54,10 @@ validateRepo = (msg, options, cb) ->
 
 
 getConfig = (msg, options, cb) ->
-  github.repos.getContent user: options.org, repo: options.repo, path: "blah.coffee", ref: options.branch, (err, res) ->
+  github.repos.getContent user: options.org, repo: options.repo, path: "#{options.yaml}.yml", ref: options.branch, (err, res) ->
     return cb(null) if err
-    console.log(err, res)
-    # yaml.safeLoad(
-    console.log new Buffer(res.content, 'base64').toString() unless err
-    return cb({})
-    # deployment:
-      # heroku:
-        # appname: foo-bar-123
-        # variables
-          # var-name: var-iable
+    config = yaml.safeLoad(new Buffer(res.content, 'base64').toString())
+    return cb(config.deploy[options.service])
 
 
 
@@ -80,9 +73,7 @@ module.exports = (robot) ->
     extractValues msg, (options) ->
       msg.send "Checking if the repo: `#{options.org}/#{options.repo}/#{options.branch}` exists"
       validateRepo msg, options, () ->
-        console.log('it exists')
+        options.yaml = robot.name
         getConfig msg, options, (config) ->
-          console.log('got here')
-          console.log config
           deploy[options.service](msg, options, config, github)
           # todo slack attachments do, robot.emit 'slack.attachment'

@@ -21,6 +21,7 @@ checkApps = (msg, config) ->
   heroku.apps().list (err, res) ->
     app = _.find(res, { name: config.appname })
     msg.send "You already have an app called: #{config.appname}, deploying code to this app" if app
+    config.url = app.web_url if app
     return createBuild msg, config, new Date() if app
     createApp msg, config
 
@@ -39,4 +40,5 @@ createBuild = (msg, config, version) ->
     heroku.apps(config.appname).builds().create source_blob: url: config.tarball, version: version, (err, build) ->
       console.log err, build
       return msg.reply "The build failed" if err
-      msg.send "The app #{config.appname} was successfully deployed to heroku"
+      msg.send "The app #{config.appname} was successfully deployed to heroku - #{config.url}"
+      # robot.emit = { "color": "#7CD197", "fallback": "", text: "", title: "", title_link: "" }
