@@ -1,7 +1,7 @@
 {
   "name": "hubot-deploy",
   "description": "Giving Hubot the ability to deploy GitHub repos to PaaS providers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Ollie Jennings <ollie@olliejennings.co.uk>",
   "license": "MIT",
   "keywords": [
