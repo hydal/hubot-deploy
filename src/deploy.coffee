@@ -3,6 +3,9 @@
 #
 # Dependencies:
 #   "github": "latest"
+#   "heroku-client": "latest"
+#   "js-yaml": "latest"
+#   "lodash": "latest"
 #
 # Configuration:
 #   HUBOT_GITHUB_ORG - Github Organization Name (optional)
@@ -11,6 +14,9 @@
 #
 # Commands:
 #   hubot where can l deploy? - returns a list of PaaS where you can deploy to
+#   hubot deploy <repo name> to heroku - deploys specific org repo to heroku
+#   hubot deploy <repo name>/<repo branch> to heroku - deploys specific org repo and branch to heroku
+#   hubot deploy <org name>/<repo name>/<repo branch> to heroku - deploy specific org repo and branch to heroku
 #
 # Author:
 #   Ollie Jennings <ollie@olliejennings.co.uk>
@@ -48,8 +54,6 @@ validateRepo = (msg, options, cb) ->
   github.repos.getBranch user: options.org, repo: options.repo, branch: options.branch, (err, res) ->
     return msg.reply "Error: the repo: #{options.org}/#{options.repo}/#{options.branch} was not found."  if err
     cb()
-
-
 
 
 
