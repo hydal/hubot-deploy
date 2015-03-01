@@ -1,7 +1,7 @@
 {
   "name": "hubot-deploy",
-  "description": "Giving Hubot the ability to deploy GitHub repos to a PaaS",
-  "version": "0.0.1",
+  "description": "Giving Hubot the ability to deploy GitHub repos to PaaS providers",
+  "version": "0.1.0",
   "author": "Ollie Jennings <ollie@olliejennings.co.uk>",
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,11 @@
     "url": "https://github.com/boxxenapp/hubot-deploy/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.9"
+    "coffee-script": "~1.9",
+    "github": "^0.2.3",
+    "heroku-client": "^1.9.1",
+    "js-yaml": "^3.2.7",
+    "lodash": "^3.3.1"
   },
   "devDependencies": {
     "mocha": "*",
