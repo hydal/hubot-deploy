@@ -31,6 +31,7 @@ createApp = (msg, config) ->
   heroku.apps().create name: config.appname, (err, app) ->
     return msg.reply "Couldn't create the app: #{config.appname}, this name could be taken" if err
     msg.send "The app: #{config.appname} was successfully created!"
+    config.url = app.web_url
     createBuild msg, config, app.released_at
 
 
@@ -39,4 +40,4 @@ createBuild = (msg, config, version) ->
     heroku.apps(config.appname).builds().create source_blob: url: config.tarball, version: version, (err, build) ->
       console.log err, build
       return msg.reply "The build failed" if err
-      msg.send "The app #{config.url} was successfully deployed to heroku"
+      msg.send "The app #{config.appname} was successfully deployed to heroku"
