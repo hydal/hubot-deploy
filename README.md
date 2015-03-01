@@ -1,5 +1,6 @@
 # Hubot Deploy
 
+[![npm version](https://badge.fury.io/js/hubot-deploy.svg)](http://badge.fury.io/js/hubot-deploy)
 [![Dependency Status](https://david-dm.org/boxxenapp/hubot-deploy.svg)](https://david-dm.org/boxxenapp/hubot-deploy)
 
 
