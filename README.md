@@ -14,13 +14,13 @@ This `hubot-script` gives Hubot the ability to deploy any github user  or organi
 
 In hubot project repository, run:
 
-`npm install hubot-deploy --save`
+`npm install hubot-deployer --save`
 
-Then add **hubot-deploy** to your `external-scripts.json`:
+Then add **hubot-deployer** to your `external-scripts.json`:
 
 ```json
 [
-    "hubot-deploy"
+    "hubot-deployer"
 ]
 ```
 
