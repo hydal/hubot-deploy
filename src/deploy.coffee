@@ -61,7 +61,7 @@ getConfig = (msg, options, cb) ->
   github.repos.getContent user: options.org, repo: options.repo, path: "#{options.yaml}.yml", ref: options.branch, (err, res) ->
     return cb(null) if err
     config = yaml.safeLoad(new Buffer(res.content, 'base64').toString())
-    return msg.reply "There is an error with your #{options.yaml}.yml file" if !config.deploy or !config.deploy[options.serverice]
+    return msg.reply "There is an error with your #{options.yaml}.yml file" if !config.deploy or !config.deploy[options.service]
     return cb(config.deploy[options.service])
 
 
