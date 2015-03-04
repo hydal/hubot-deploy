@@ -9,6 +9,10 @@ module.exports = (msg, options, config={ appname: "#{[options.repo, options.bran
   github = gh
   return msg.reply "To deploy to Heroku you need a HEROKU_KEY" if !process.env.HUBOT_HEROKU_KEY
   heroku = new Heroku({ token: process.env.HUBOT_HEROKU_KEY })
+  config.appname = (config[options.branch] && config[options.branch].appname) || config.other.appname if not config.appname
+
+
+  console.log config
   github.repos.getArchiveLink user: options.org, repo: options.repo, ref: "heads/#{options.branch}", archive_format: "tarball", (err, res) ->
     return msg.reply "Unable to get the github download link for: `#{options.org}/#{options.repo}/#{options.branch}`" if err
     config.tarball = res.meta.location

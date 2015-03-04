@@ -39,10 +39,15 @@ HUBOT_HEROKU_KEY - Heroku Application Key (required if you are deploying to hero
 
 If you are using the `yaml` file in your repo, its layout must adhere to below:
 
-```
+```yaml
 deploy:
-    heroku: (if deploying to heroku)
-        appname: foobar-123
+    heroku:
+        master: (default branch - required)
+            appname: foobar-123
+        feature-branch: (name of a specific branch you have)
+            appname: foobar-feature-123
+        other: (the catch all - so required!)
+            appname: foobar-dev-123
 ```
 
 This file must be called the name of your hubot setup, e.g. if you called your Hubot `ruby`, then the file would be called `ruby.yml`.
@@ -94,3 +99,7 @@ Goal is to be able to push to nearly every single PaaS provder that exists, but 
 * [All those in the provders list](http://en.wikipedia.org/wiki/Platform_as_a_service)
 
 
+
+#### Changelog
+
+**2015-03-04**: [Release Notes](https://github.com/boxxenapp/hubot-deploy/releases/tag/v0.2.0)
