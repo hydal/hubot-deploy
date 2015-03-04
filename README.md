@@ -102,4 +102,4 @@ Goal is to be able to push to nearly every single PaaS provder that exists, but 
 
 #### Changelog
 
-**2015-03-04**: [Release Notes](https://github.com/boxxenapp/hubot-deploy/releases/tag/v0.2.0)
+**2015-03-04**: [Release Notes](https://github.com/boxxenapp/hubot-deploy/releases/tag/v0.2.1)
