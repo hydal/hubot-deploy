@@ -84,7 +84,7 @@ hubot:
 
 ## Changelog
 
-**2015-03-04**: [Release Notes](https://github.com/boxxenapp/hubot-deploy/releases/tag/v0.2.0)
+**2015-03-04**: [Release Notes](https://github.com/boxxenapp/hubot-deploy/releases/tag/v0.2.1)
 
 
 
@@ -107,6 +107,5 @@ hubot:
 ### PaaS Providers Implemented
 
 * [Heroku](http://heroku.com/)
-
 
 
